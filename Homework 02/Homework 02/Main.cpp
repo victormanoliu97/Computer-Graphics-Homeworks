@@ -104,23 +104,23 @@ double d(double x) {
 // Functia d(x) / x
 void Display3() {
 	double ratia = 0.05;
-	double xmax = 100, ymax = 0;
+	double xmax = 100 * 1.1, ymax = 1.1;
 
 	glColor3f(1, 0.1, 0.1);
 	glBegin(GL_LINE_STRIP);
 
-	for (double x = 0; x < xmax; x += ratia)
+	for (double x = 0; x < 100; x += ratia)
 	{
 		double x1, y1;
 		if (x == 0)
 		{
 			x1 = x / xmax;
-			y1 = x / ymax;
+			y1 = 1 / ymax;
 		}
 		else
 		{
 			x1 = x / xmax;
-			y1 = d(x) / x;
+			y1 = d(x) / x / ymax;
 		}
 		glVertex2f(x1, y1);
 	}
