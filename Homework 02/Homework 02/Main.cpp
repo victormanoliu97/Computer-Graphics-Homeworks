@@ -127,6 +127,44 @@ void Display3() {
 	glEnd();
 }
 
+void Display4() {
+	double xmax, ymax, xmin, ymin;
+	double a = 0.3, b = 0.2;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+	xmax = -1;
+	xmin = 1;
+	ymax = -1;
+	ymin = 1;
+
+	for (double t = -pi + ratia; t < pi; t += ratia) {
+		double x, y;
+		x = 2 * (a * cos(t) + b) * cos(t);
+		xmax = (xmax < x) ? x : xmax;
+		xmin = (xmin > x) ? x : xmin;
+
+		y = 2 * (a * cos(t) + b) * sin(t);
+		ymax = (ymax < y) ? y : ymax;
+		ymin = (ymin > y) ? y : ymin;
+	}
+
+	xmax = (fabs(xmax) > fabs(xmin)) ? fabs(xmax) : fabs(xmin);
+	ymax = (fabs(ymax) > fabs(ymin)) ? fabs(ymax) : fabs(ymin);
+
+	xmax = xmax * 1.1;
+	ymax = ymax * 1.1;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_LOOP);
+	for (double t = -pi + ratia; t < pi; t += ratia) {
+		double x, y;
+		x = 2 * (a * cos(t) + b) * cos(t) / xmax;
+		y = 2 * (a * cos(t) + b) * sin(t) / ymax;
+		glVertex2f(x, y);
+	}
+	glEnd();
+}
 
 
 void Init(void) {
@@ -152,6 +190,9 @@ void Display(void) {
 		break;
 	case '3':
 		Display3();
+		break;
+	case '4':
+		Display4();
 		break;
 	default:
 		break;
