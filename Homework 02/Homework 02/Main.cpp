@@ -243,6 +243,54 @@ void Display7() {
 	glEnd();
 }
 
+// lemniscata lui Bernoulli
+void Display8() {
+	double R, r1, r2, a= 0.4;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_STRIP);
+	for (double t = pi / 4 - ratia; t > -pi / 4; t -= ratia) {
+		double x, y;
+		r2 = -a * sqrt(2 * cos(2 * t));
+		x = r2 * cos(t);
+		y = r2 * sin(t);
+		glVertex2f(x, y);
+	}
+	for (double t = -pi/4 + ratia; t < pi/4; t += ratia) {
+		double x, y;
+		r1 = a * sqrt(2 * cos(2 * t));
+		x = r1 * cos(t);
+		y = r1 * sin(t);
+		glVertex2f(x, y);
+		
+	}
+	glEnd();
+}
+
+// spirala logaritmica
+void Display9() {
+	double R, r, a = 0.02;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+	double xmax = 1.1, ymax = 1.1;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_STRIP);
+	for (double t = 0 + ratia; t < pi; t += ratia) {
+		double x, y;
+		r = a * exp(1 + t) ;
+		x = r * cos(t) / xmax;
+		y = r * sin(t) / ymax;
+		glVertex2f(x, y);
+
+	}
+	glEnd();
+}
+
 
 void Init(void) {
 
@@ -279,6 +327,12 @@ void Display(void) {
 		break;
 	case '7':
 		Display7();
+		break;
+	case '8':
+		Display8();
+		break;
+	case '9':
+		Display9();
 		break;
 	default:
 		break;
