@@ -209,39 +209,35 @@ void Display5() {
 
 // Epicloida
 void Display6() {
-	double xmax, ymax, xmin, ymin;
 	double R = 0.1, r = 0.3;
 	double pi = 4 * atan(1);
 	double ratia = 0.05;
 	double t;
-	xmax = -1;
-	xmin = 1;
-	ymax = -1;
-	ymin = 1;
-
-	for (double t = 0 ; t <= 2 * pi; t += ratia) {
-		double x, y;
-		x = (R + r)*cos(r / R * t) - r * cos(t + r / R * t);
-		xmax = (xmax < x) ? x : xmax;
-		xmin = (xmin > x) ? x : xmin;
-
-		y = (R + r)*sin(r / R * t) - r * sin(t + r / R * t);
-		ymax = (ymax < y) ? y : ymax;
-		ymin = (ymin > y) ? y : ymin;
-	}
-
-	xmax = (fabs(xmax) > fabs(xmin)) ? fabs(xmax) : fabs(xmin);
-	ymax = (fabs(ymax) > fabs(ymin)) ? fabs(ymax) : fabs(ymin);
-
-	xmax = xmax * 1.1;
-	ymax = ymax * 1.1;
 
 	glColor3f(1, 0.1, 0.1); // rosu
 	glBegin(GL_LINE_LOOP);
 	for (double t = 0; t <= 2 * pi; t += ratia) {
 		double x, y;
-		x = (R + r)*cos(r / R * t) - r * cos(t + r / R * t) / xmax;
-		y = (R + r)*sin(r / R * t) - r * sin(t + r / R * t) / ymax;
+		x = (R + r)*cos(r / R * t) - r * cos(t + r / R * t);
+		y = (R + r)*sin(r / R * t) - r * sin(t + r / R * t);
+		glVertex2f(x, y);
+	}
+	glEnd();
+}
+
+// Hipoclicloida
+void Display7() {
+	double R = 0.1, r = 0.3;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_LOOP);
+	for (double t = 0; t <= 2 * pi; t += ratia) {
+		double x, y;
+		x = (R - r)*cos(r / R * t) - r * cos(t - r / R * t);
+		y = (R - r)*sin(r / R * t) - r * sin(t - r / R * t);
 		glVertex2f(x, y);
 	}
 	glEnd();
@@ -280,6 +276,9 @@ void Display(void) {
 		break;
 	case '6':
 		Display6();
+		break;
+	case '7':
+		Display7();
 		break;
 	default:
 		break;
