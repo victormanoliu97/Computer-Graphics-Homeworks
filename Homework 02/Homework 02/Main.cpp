@@ -127,6 +127,7 @@ void Display3() {
 	glEnd();
 }
 
+// Melcul lui Pascal
 void Display4() {
 	double xmax, ymax, xmin, ymin;
 	double a = 0.3, b = 0.2;
@@ -166,6 +167,46 @@ void Display4() {
 	glEnd();
 }
 
+// Cicloida
+void Display5() {
+	double xmax, ymax, xmin, ymin;
+	double a = 0.1, b = 0.2;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+	xmax = -1;
+	xmin = 1;
+	ymax = -1;
+	ymin = 1;
+
+	for (double t = -3*pi + ratia; t < 3*pi; t += ratia) {
+		double x, y;
+		x = a*t - b*sin(t);
+		xmax = (xmax < x) ? x : xmax;
+		xmin = (xmin > x) ? x : xmin;
+
+		y = a - b*cos(t);
+		ymax = (ymax < y) ? y : ymax;
+		ymin = (ymin > y) ? y : ymin;
+	}
+
+	xmax = (fabs(xmax) > fabs(xmin)) ? fabs(xmax) : fabs(xmin);
+	ymax = (fabs(ymax) > fabs(ymin)) ? fabs(ymax) : fabs(ymin);
+
+	xmax = xmax * 1.1;
+	ymax = ymax * 1.4;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_STRIP);
+	for (double t = -3*pi + ratia; t < 3*pi; t += ratia) {
+		double x, y;
+		x = a * t - b * sin(t) / xmax;
+		y = a - b * cos(t) / ymax;
+		glVertex2f(x, y);
+	}
+	glEnd();
+}
+
 
 void Init(void) {
 
@@ -194,6 +235,8 @@ void Display(void) {
 	case '4':
 		Display4();
 		break;
+	case '5':
+		Display5();
 	default:
 		break;
 	}
