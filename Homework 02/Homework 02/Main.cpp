@@ -104,29 +104,192 @@ double d(double x) {
 // Functia d(x) / x
 void Display3() {
 	double ratia = 0.05;
-	double xmax = 100, ymax = 0;
+	double xmax = 100 * 1.1, ymax = 1.1;
 
 	glColor3f(1, 0.1, 0.1);
 	glBegin(GL_LINE_STRIP);
 
-	for (double x = 0; x < xmax; x += ratia)
+	for (double x = 0; x < 100; x += ratia)
 	{
 		double x1, y1;
 		if (x == 0)
 		{
 			x1 = x / xmax;
-			y1 = x / ymax;
+			y1 = 1 / ymax;
 		}
 		else
 		{
 			x1 = x / xmax;
-			y1 = d(x) / x;
+			y1 = d(x) / x / ymax;
 		}
 		glVertex2f(x1, y1);
 	}
 	glEnd();
 }
 
+//Melcul lui Pascal
+void Display4() {
+	double xmax, ymax, xmin, ymin;
+	double a = 0.3, b = 0.2;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+	xmax = -1;
+	xmin = 1;
+	ymax = -1;
+	ymin = 1;
+
+	for (double t = -pi + ratia; t < pi; t += ratia) {
+		double x, y;
+		x = 2 * (a * cos(t) + b) * cos(t);
+		xmax = (xmax < x) ? x : xmax;
+		xmin = (xmin > x) ? x : xmin;
+
+		y = 2 * (a * cos(t) + b) * sin(t);
+		ymax = (ymax < y) ? y : ymax;
+		ymin = (ymin > y) ? y : ymin;
+	}
+
+	xmax = (fabs(xmax) > fabs(xmin)) ? fabs(xmax) : fabs(xmin);
+	ymax = (fabs(ymax) > fabs(ymin)) ? fabs(ymax) : fabs(ymin);
+
+	xmax = xmax * 1.1;
+	ymax = ymax * 1.1;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_LOOP);
+	for (double t = -pi + ratia; t < pi; t += ratia) {
+		double x, y;
+		x = 2 * (a * cos(t) + b) * cos(t) / xmax;
+		y = 2 * (a * cos(t) + b) * sin(t) / ymax;
+		glVertex2f(x, y);
+	}
+	glEnd();
+}
+
+// Cicloida
+void Display5() {
+	double xmax, ymax, xmin, ymin;
+	double a = 0.1, b = 0.2;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+	xmax = -1;
+	xmin = 1;
+	ymax = -1;
+	ymin = 1;
+
+	for (double t = -3 * pi + ratia; t < 3 * pi; t += ratia) {
+		double x, y;
+		x = a * t - b * sin(t);
+		xmax = (xmax < x) ? x : xmax;
+		xmin = (xmin > x) ? x : xmin;
+
+		y = a - b * cos(t);
+		ymax = (ymax < y) ? y : ymax;
+		ymin = (ymin > y) ? y : ymin;
+	}
+
+	xmax = (fabs(xmax) > fabs(xmin)) ? fabs(xmax) : fabs(xmin);
+	ymax = (fabs(ymax) > fabs(ymin)) ? fabs(ymax) : fabs(ymin);
+
+	xmax = xmax * 1.1;
+	ymax = ymax * 1.4;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_STRIP);
+	for (double t = -3 * pi + ratia; t < 3 * pi; t += ratia) {
+		double x, y;
+		x = a * t - b * sin(t) / xmax;
+		y = a - b * cos(t) / ymax;
+		glVertex2f(x, y);
+	}
+	glEnd();
+}
+
+// Epicloida
+void Display6() {
+	double R = 0.1, r = 0.3;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_LOOP);
+	for (double t = 0; t <= 2 * pi; t += ratia) {
+		double x, y;
+		x = (R + r)*cos(r / R * t) - r * cos(t + r / R * t);
+		y = (R + r)*sin(r / R * t) - r * sin(t + r / R * t);
+		glVertex2f(x, y);
+	}
+	glEnd();
+}
+
+// Hipoclicloida
+void Display7() {
+	double R = 0.1, r = 0.3;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_LOOP);
+	for (double t = 0; t <= 2 * pi; t += ratia) {
+		double x, y;
+		x = (R - r)*cos(r / R * t) - r * cos(t - r / R * t);
+		y = (R - r)*sin(r / R * t) - r * sin(t - r / R * t);
+		glVertex2f(x, y);
+	}
+	glEnd();
+}
+
+// lemniscata lui Bernoulli
+void Display8() {
+	double R, r1, r2, a = 0.4;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_STRIP);
+	for (double t = pi / 4 - ratia; t > -pi / 4; t -= ratia) {
+		double x, y;
+		r2 = -a * sqrt(2 * cos(2 * t));
+		x = r2 * cos(t);
+		y = r2 * sin(t);
+		glVertex2f(x, y);
+	}
+	for (double t = -pi / 4 + ratia; t < pi / 4; t += ratia) {
+		double x, y;
+		r1 = a * sqrt(2 * cos(2 * t));
+		x = r1 * cos(t);
+		y = r1 * sin(t);
+		glVertex2f(x, y);
+
+	}
+	glEnd();
+}
+
+// spirala logaritmica
+void Display9() {
+	double R, r, a = 0.02;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+	double xmax = 1.1, ymax = 1.1;
+
+	glColor3f(1, 0.1, 0.1); // rosu
+	glBegin(GL_LINE_STRIP);
+	for (double t = 0 + ratia; t < pi; t += ratia) {
+		double x, y;
+		r = a * exp(1 + t);
+		x = r * cos(t) / xmax;
+		y = r * sin(t) / ymax;
+		glVertex2f(x, y);
+
+	}
+	glEnd();
+}
 
 
 void Init(void) {
@@ -152,6 +315,24 @@ void Display(void) {
 		break;
 	case '3':
 		Display3();
+		break;
+	case '4':
+		Display4();
+		break;
+	case '5':
+		Display5();
+		break;
+	case '6':
+		Display6();
+		break;
+	case '7':
+		Display7();
+		break;
+	case '8':
+		Display8();
+		break;
+	case '9':
+		Display9();
 		break;
 	default:
 		break;
