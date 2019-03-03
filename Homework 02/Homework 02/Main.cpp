@@ -127,7 +127,7 @@ void Display3() {
 	glEnd();
 }
 
-//Melcul lui Pascal
+// Melcul lui Pascal
 void Display4() {
 	double xmax, ymax, xmin, ymin;
 	double a = 0.3, b = 0.2;
@@ -179,13 +179,13 @@ void Display5() {
 	ymax = -1;
 	ymin = 1;
 
-	for (double t = -3 * pi + ratia; t < 3 * pi; t += ratia) {
+	for (double t = -3*pi + ratia; t < 3*pi; t += ratia) {
 		double x, y;
-		x = a * t - b * sin(t);
+		x = a*t - b*sin(t);
 		xmax = (xmax < x) ? x : xmax;
 		xmin = (xmin > x) ? x : xmin;
 
-		y = a - b * cos(t);
+		y = a - b*cos(t);
 		ymax = (ymax < y) ? y : ymax;
 		ymin = (ymin > y) ? y : ymin;
 	}
@@ -198,7 +198,7 @@ void Display5() {
 
 	glColor3f(1, 0.1, 0.1); // rosu
 	glBegin(GL_LINE_STRIP);
-	for (double t = -3 * pi + ratia; t < 3 * pi; t += ratia) {
+	for (double t = -3*pi + ratia; t < 3*pi; t += ratia) {
 		double x, y;
 		x = a * t - b * sin(t) / xmax;
 		y = a - b * cos(t) / ymax;
@@ -245,7 +245,7 @@ void Display7() {
 
 // lemniscata lui Bernoulli
 void Display8() {
-	double R, r1, r2, a = 0.4;
+	double R, r1, r2, a= 0.4;
 	double pi = 4 * atan(1);
 	double ratia = 0.05;
 	double t;
@@ -259,13 +259,13 @@ void Display8() {
 		y = r2 * sin(t);
 		glVertex2f(x, y);
 	}
-	for (double t = -pi / 4 + ratia; t < pi / 4; t += ratia) {
+	for (double t = -pi/4 + ratia; t < pi/4; t += ratia) {
 		double x, y;
 		r1 = a * sqrt(2 * cos(2 * t));
 		x = r1 * cos(t);
 		y = r1 * sin(t);
 		glVertex2f(x, y);
-
+		
 	}
 	glEnd();
 }
@@ -282,7 +282,7 @@ void Display9() {
 	glBegin(GL_LINE_STRIP);
 	for (double t = 0 + ratia; t < pi; t += ratia) {
 		double x, y;
-		r = a * exp(1 + t);
+		r = a * exp(1 + t) ;
 		x = r * cos(t) / xmax;
 		y = r * sin(t) / ymax;
 		glVertex2f(x, y);
