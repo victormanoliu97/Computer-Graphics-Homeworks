@@ -104,12 +104,12 @@ double d(double x) {
 // Functia d(x) / x
 void Display3() {
 	double ratia = 0.05;
-	double xmax = 100 * 1.1, ymax = 1.1;
+	double xmax = 30 * 1.1, ymax = 1.1;
 
 	glColor3f(1, 0.1, 0.1);
 	glBegin(GL_LINE_STRIP);
 
-	for (double x = 0; x < 100; x += ratia)
+	for (double x = 0; x < 30; x += ratia)
 	{
 		double x1, y1;
 		if (x == 0)
@@ -154,7 +154,7 @@ void Display4() {
 	ymax = (fabs(ymax) > fabs(ymin)) ? fabs(ymax) : fabs(ymin);
 
 	xmax = xmax * 1.1;
-	ymax = ymax * 1.1;
+	ymax = ymax * 1.5;
 
 	glColor3f(1, 0.1, 0.1); // rosu
 	glBegin(GL_LINE_LOOP);
@@ -194,7 +194,7 @@ void Display5() {
 	ymax = (fabs(ymax) > fabs(ymin)) ? fabs(ymax) : fabs(ymin);
 
 	xmax = xmax * 1.1;
-	ymax = ymax * 1.4;
+	ymax = ymax * 2.5;
 
 	glColor3f(1, 0.1, 0.1); // rosu
 	glBegin(GL_LINE_STRIP);
@@ -247,7 +247,7 @@ void Display7() {
 void Display8() {
 	double R, r1, r2, a= 0.4;
 	double pi = 4 * atan(1);
-	double ratia = 0.05;
+	double ratia = 0.0025;
 	double t;
 
 	glColor3f(1, 0.1, 0.1); // rosu
@@ -276,7 +276,7 @@ void Display9() {
 	double pi = 4 * atan(1);
 	double ratia = 0.05;
 	double t;
-	double xmax = 1.1, ymax = 1.1;
+	double xmax = 1.3, ymax = 1.1;
 
 	glColor3f(1, 0.1, 0.1); // rosu
 	glBegin(GL_LINE_STRIP);
