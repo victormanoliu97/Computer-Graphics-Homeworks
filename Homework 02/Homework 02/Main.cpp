@@ -293,7 +293,7 @@ void Display9() {
 
 // trisectoarea lui Longchamps
 void Display0() {
-	double a = 0.02;
+	double a = 0.2;
 	double pi = 4 * atan(1);
 	double ratia = 0.05;
 	double t;
