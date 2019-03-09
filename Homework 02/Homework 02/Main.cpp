@@ -291,6 +291,63 @@ void Display9() {
 	glEnd();
 }
 
+// trisectoarea lui Longchamps
+void Display0() {
+	double a = 0.02;
+	double pi = 4 * atan(1);
+	double ratia = 0.05;
+	double t;
+	double xmax = -1, ymax = -1, xmin = 1, ymin = 1, xs, ys;
+
+	for (double t = -pi/2 + ratia; t < -pi/6; t += ratia) {
+		double x, y;
+		x = a /(4 * cos(t)*cos(t) - 3);
+		xmax = (xmax < x) ? x : xmax;
+		xmin = (xmin > x) ? x : xmin;
+
+		y = a * tan(t) /(4 * cos(t)*cos(t) - 3);
+		ymax = (ymax < y) ? y : ymax;
+		ymin = (ymin > y) ? y : ymin;
+	}
+
+	xs = (fabs(xmax) > fabs(xmin)) ? fabs(xmax) : fabs(xmin);
+	ys = (fabs(ymax) > fabs(ymin)) ? fabs(ymax) : fabs(ymin);
+	xs = xs * 1.1;
+	ys = ys * 1.1;
+
+	// triunghiurile graficului
+	glColor3f(1, 0, 0); // rosu
+	glBegin(GL_TRIANGLES);
+	bool contor = true;
+	for (double t = -pi / 2 + ratia; t < -pi / 6; t += ratia) {
+		if (contor) {
+			// desenez punctul din stanga sus
+			glVertex2f(xmin / xs, ymax / ys);
+		}
+		contor = !contor;
+		double x, y;
+		x = a / (4 * cos(t)*cos(t) - 3) / xs;
+		y = a * tan(t) / (4 * cos(t)*cos(t) - 3) / ys;
+		glVertex2f(x, y);
+	}
+	glEnd();
+
+	// conturul graficului
+	glColor3f(0, 0, 1); // albastru
+	glBegin(GL_LINE_LOOP);
+	// desenez punctul din stanga sus
+	glVertex2f(xmin / xs, ymax / ys);
+	for (double t = -pi / 2 + ratia; t < -pi / 6; t += ratia) {
+		double x, y;
+		x = a / (4 * cos(t)*cos(t) - 3) / xs;
+		y = a * tan(t) / (4 * cos(t)*cos(t) - 3) / ys;
+		glVertex2f(x, y);
+	}
+	glEnd();
+
+}
+
+
 
 void Init(void) {
 
@@ -333,6 +390,9 @@ void Display(void) {
 		break;
 	case '9':
 		Display9();
+		break;
+	case '0':
+		Display0();
 		break;
 	default:
 		break;
