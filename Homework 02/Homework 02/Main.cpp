@@ -315,6 +315,7 @@ void Display0() {
 	xs = xs * 1.1;
 	ys = ys * 1.1;
 
+	ratia = 0.055;
 	// triunghiurile graficului
 	glColor3f(1, 0, 0); // rosu
 	glBegin(GL_TRIANGLES);
@@ -332,6 +333,7 @@ void Display0() {
 	}
 	glEnd();
 
+	ratia = 0.05;
 	// conturul graficului
 	glColor3f(0, 0, 1); // albastru
 	glBegin(GL_LINE_LOOP);
