@@ -307,8 +307,6 @@ public:
 	}
 };
 
-
-
 class CCurbaHilbert
 {
 public:
