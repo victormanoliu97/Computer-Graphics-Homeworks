@@ -280,7 +280,7 @@ void Display9() {
 
 	glColor3f(1, 0.1, 0.1); // rosu
 	glBegin(GL_LINE_STRIP);
-	for (double t = 0 + ratia; t < pi; t += ratia) {
+	for (double t = 0 + ratia; t < pi - 0.1; t += ratia) {
 		double x, y;
 		r = a * exp(1 + t) ;
 		x = r * cos(t) / xmax;
