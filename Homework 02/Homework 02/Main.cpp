@@ -211,7 +211,7 @@ void Display5() {
 void Display6() {
 	double R = 0.1, r = 0.3;
 	double pi = 4 * atan(1);
-	double ratia = 0.05;
+	double ratia = 0.01;
 	double t;
 
 	glColor3f(1, 0.1, 0.1); // rosu
@@ -286,7 +286,6 @@ void Display9() {
 		x = r * cos(t) / xmax;
 		y = r * sin(t) / ymax;
 		glVertex2f(x, y);
-
 	}
 	glEnd();
 }
@@ -305,6 +304,7 @@ void Display0() {
 	// xmin = -0.979, ymax = 0.957
 	glVertex2f(-0.979, 0.957);
 
+	// contur
 	for (double t = -pi / 2; t <= pi / 2; t += ratio)
 	{
 		if (!(t == pi / 6 || t == -pi / 6)) {
@@ -312,7 +312,6 @@ void Display0() {
 			y = ((a * sin(t) / cos(t)) / (4 * pow(cos(t), 2) - 3));
 
 		}
-
 		if (x >= -1 && x <= 0 && y <= 1 && y >= 0) {
 			glVertex2f(x, y);
 		}
@@ -320,7 +319,7 @@ void Display0() {
 
 	glEnd();
 
-
+	// interior
 	for (double t = -pi / 2; t <= pi / 2; t += ratio)
 	{
 		if (!(t == pi / 6 || t == -pi / 6)) {
@@ -328,7 +327,6 @@ void Display0() {
 			y = ((a * sin(t) / cos(t)) / (4 * pow(cos(t), 2) - 3));
 
 		}
-
 
 		if (y > 0.25 && (y >= 0 && y <= 0.957 && x <= 0 && x >= -0.979))
 		{
