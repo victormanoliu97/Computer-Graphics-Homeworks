@@ -652,9 +652,10 @@ public:
 
 	// testeaza daca x apartine multimii Mandlebrot
 	// returneaza -1 daca apartine, iter daca converge la infinit
-	int isIn(CComplex &x, int &iter)
+	int isIn(CComplex &x)
 	{
 		int rez = -1;
+		int iter;
 		// tablou in care vor fi memorate valorile procesului iterativ z_n+1 = z_n * z_n + c
 		CComplex z0, z1;
 
@@ -682,13 +683,12 @@ public:
 		glPushMatrix();
 		glLoadIdentity();
 
-		int nriter;
 		float xs = 2.5, ys = 2.5;
 		glBegin(GL_POINTS);
 		for (double x = xmin; x <= xmax; x += RX_JF)
 			for (double y = ymin; y <= ymax; y += RY_JF) {
 				CComplex z(x, y);
-				int r = isIn(z, nriter);
+				int r = isIn(z);
 
 				if (r == -1) {
 					glColor3f(1.0, 0, 0);
@@ -985,7 +985,7 @@ void Display9() {
 	CMandlebrot cm(c);
 
 	glColor3f(1.0, 0.1, 0.1);
-	cm.setnriter(30);
+	cm.setnriter(10);
 	cm.display(-2, -2, 2, 2);
 }
 
