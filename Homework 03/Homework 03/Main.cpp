@@ -715,6 +715,58 @@ private:
 	} m;
 };
 
+// Am folosit pentru referinta si cod : https://en.wikipedia.org/wiki/Sierpi%C5%84ski_curve
+class Sierpinski_Arrowhead_Curve
+{
+public:
+	static void sierpinskiArrowheadCurve(int nivel, double lungime, CPunct p, CVector v)
+	{
+
+		CPunct temp = p;
+		double x, y;
+
+		if (nivel % 2 == 1)
+		{
+			curve(nivel, lungime, 60, p, v);
+		}
+		else
+		{
+			v.rotatie(60);
+			curve(nivel, lungime, -60, p, v);
+		}
+	}
+
+	static void curve(int nivel, double lungime, double unghi, CPunct p, CVector v)
+	{
+		if (nivel == 0)
+		{
+			v.deseneaza(p, lungime);
+		}
+		else
+		{
+			v.rotatie(unghi);
+			curve(nivel - 1, lungime / 2, -unghi, p, v);
+
+			p = v.getDest(p, lungime / 2);
+			v.rotatie(-unghi);
+			curve(nivel - 1, lungime / 2, unghi, p, v);
+
+			p = v.getDest(p, lungime / 2);
+			v.rotatie(-unghi);
+			curve(nivel - 1, lungime / 2, -unghi, p, v);
+		}
+	}
+
+	void show(double size, int nivel)
+	{
+		CVector v(1.0, 0.55);
+		CPunct p(0.0, 0.0);
+
+
+		sierpinskiArrowheadCurve(nivel, size, p, v);
+	}
+};
+
 
 // afisare curba lui Koch "fulg de zapada"
 void Display1() {
@@ -937,6 +989,13 @@ void Display9() {
 	cm.display(-2, -2, 2, 2);
 }
 
+void Display10() {
+	Sierpinski_Arrowhead_Curve sierpinski;
+	sierpinski.show(0.55, nivel);
+	fprintf(stderr, "nivel = %d\n", nivel);
+	nivel++;
+}
+
 void Init(void) {
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -992,6 +1051,10 @@ void Display(void)
 	case '9':
 		glClear(GL_COLOR_BUFFER_BIT);
 		Display9();
+		break;
+	case '/':
+		glClear(GL_COLOR_BUFFER_BIT);
+		Display10();
 		break;
 	default:
 		break;
