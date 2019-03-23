@@ -312,9 +312,11 @@ void Display0() {
 			y = ((a * sin(t) / cos(t)) / (4 * pow(cos(t), 2) - 3));
 
 		}
+		
 		if (x >= -1 && x <= 0 && y <= 1 && y >= 0) {
 			glVertex2f(x, y);
 		}
+
 	}
 
 	glEnd();
