@@ -719,24 +719,8 @@ private:
 class Sierpinski_Arrowhead_Curve
 {
 public:
-	static void sierpinskiArrowheadCurve(int nivel, double lungime, CPunct p, CVector v)
-	{
 
-		CPunct temp = p;
-		double x, y;
-
-		if (nivel % 2 == 1)
-		{
-			curve(nivel, lungime, 60, p, v);
-		}
-		else
-		{
-			v.rotatie(60);
-			curve(nivel, lungime, -60, p, v);
-		}
-	}
-
-	static void curve(int nivel, double lungime, double unghi, CPunct p, CVector v)
+	static void sierpinskiArrowheadCurve(int nivel, double lungime, double unghi, CPunct p, CVector v)
 	{
 		if (nivel == 0)
 		{
@@ -745,25 +729,24 @@ public:
 		else
 		{
 			v.rotatie(unghi);
-			curve(nivel - 1, lungime / 2, -unghi, p, v);
+			sierpinskiArrowheadCurve(nivel - 1, lungime / 2, -unghi, p, v);
 
 			p = v.getDest(p, lungime / 2);
 			v.rotatie(-unghi);
-			curve(nivel - 1, lungime / 2, unghi, p, v);
+			sierpinskiArrowheadCurve(nivel - 1, lungime / 2, unghi, p, v);
 
 			p = v.getDest(p, lungime / 2);
 			v.rotatie(-unghi);
-			curve(nivel - 1, lungime / 2, -unghi, p, v);
+			sierpinskiArrowheadCurve(nivel - 1, lungime / 2, -unghi, p, v);
 		}
 	}
 
 	void show(double size, int nivel)
 	{
-		CVector v(1.0, 0.55);
-		CPunct p(0.0, 0.0);
+		CVector v(0.0, -1.0);
+		CPunct p(0.0, 0.25);
 
-
-		sierpinskiArrowheadCurve(nivel, size, p, v);
+		sierpinskiArrowheadCurve(nivel, size, 60, p, v);
 	}
 };
 
@@ -991,8 +974,21 @@ void Display9() {
 
 void Display10() {
 	Sierpinski_Arrowhead_Curve sierpinski;
-	sierpinski.show(0.55, nivel);
+	sierpinski.show(0.75, nivel);
 	fprintf(stderr, "nivel = %d\n", nivel);
+
+	char c[3];
+	sprintf(c, "%2d", nivel);
+	glRasterPos2d(-0.98, -0.98);
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'N');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'i');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'v');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'e');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'l');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, '=');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[0]);
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[1]);
+
 	nivel++;
 }
 
