@@ -397,6 +397,64 @@ public:
 };
 
 
+class CArbore {
+public:
+	void arbore(double lungime,
+		int nivel,
+		double factordiviziune,
+		CPunct p,
+		CVector v) {
+		assert(factordiviziune != 0);
+		CPunct p1, p2;
+		if (nivel == 0)
+		{
+		}
+		else {
+			v.rotatie(-45);
+			v.deseneaza(p, lungime);
+			p1 = v.getDest(p, lungime);
+			arbore(lungime*factordiviziune, nivel - 1, factordiviziune, p1, v);
+
+			v.rotatie(90);
+			v.deseneaza(p, lungime);
+			p1 = v.getDest(p, lungime);
+			p2 = p1;
+
+			v.rotatie(15);
+			v.deseneaza(p1, lungime);
+			p1 = v.getDest(p1, lungime);
+			arbore(lungime*factordiviziune, nivel - 1, factordiviziune, p1, v);
+
+			p1 = p2;
+			v.rotatie(-60);
+			v.deseneaza(p1, lungime);
+			p1 = v.getDest(p1, lungime);
+			p2 = p1;
+
+			v.rotatie(-90);
+			v.deseneaza(p1, lungime / 2);
+			p1 = v.getDest(p1, lungime / 2);
+			arbore(lungime*factordiviziune, nivel - 1, factordiviziune, p1, v);
+
+			v.rotatie(115);
+			v.deseneaza(p2, lungime / 2);
+			p2 = v.getDest(p2, lungime / 2);
+			arbore(lungime*factordiviziune, nivel - 1, factordiviziune, p2, v);
+		}
+	}
+
+	void afisare(double lungime, int nivel)
+	{
+		CVector v(0.0, -1.0);
+		CPunct p(0.0, 1.0);
+
+		v.deseneaza(p, 0.25);
+		p = v.getDest(p, 0.25);
+
+		arbore(lungime, nivel, 0.4,p, v);
+	}
+};
+
 
 // afisare curba lui Koch "fulg de zapada"
 void Display1() {
@@ -562,6 +620,32 @@ void Display5() {
 	nivel++;
 }
 
+void Display6() {
+	CArbore ca;
+
+	char c[3];
+	sprintf(c, "%2d", nivel);
+	glRasterPos2d(-0.98, -0.98);
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'N');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'i');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'v');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'e');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'l');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, '=');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[0]);
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[1]);
+
+	glPushMatrix();
+	glLoadIdentity();
+	glScaled(0.4, 0.4, 1);
+	glTranslated(-0.5, 0.5, 0.0);
+	ca.afisare(1, nivel);
+	glPopMatrix();
+
+
+	nivel++;
+}
+
 void Init(void) {
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -601,6 +685,10 @@ void Display(void)
 	case '5':
 		glClear(GL_COLOR_BUFFER_BIT);
 		Display5();
+		break;
+	case '6':
+		glClear(GL_COLOR_BUFFER_BIT);
+		Display6();
 		break;
 	default:
 		break;
