@@ -143,7 +143,9 @@ public:
 		glColor3f(1.0, 0.1, 0.1);
 		glBegin(GL_LINE_STRIP);
 		glVertex2d(x, y);
+		//printf("%f %f\n", x, y);
 		glVertex2d(x + m.x * lungime, y + m.y * lungime);
+		//printf("%f %f\n\n", x + m.x * lungime, y + m.y * lungime);
 		glEnd();
 	}
 
@@ -350,6 +352,49 @@ public:
 	}
 };
 
+class CSirpienskiCarpet {
+public:
+	void sirpienskiCarpet(double lungime, int nivel, CPunct &p, CVector v) {
+		if (nivel >= 0) {
+			//deseneaza
+			//CPunct p1(p);
+			double x, y;
+			p.getxy(x, y);
+			//v.deseneaza(CPunct(x - lungime / 2, y + lungime / 2), lungime);
+			//v.rotatie(90);
+			//p1 = v.getDest(p1, lungime);
+
+			CPunct p1(x - lungime, y);
+
+			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x - lungime, y), v);
+			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x - lungime, y - lungime), v);
+			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x - lungime, y + lungime), v);
+			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x, y - lungime), v);
+			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x - lungime, y + lungime), v);
+			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x + lungime, y), v);
+			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x + lungime, y - lungime), v);
+			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x + lungime, y + lungime), v);
+			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x, y + lungime), v);
+
+
+			CPunct p2(x - lungime / 2.0, y + lungime / 2.0);
+
+			for (int i = 0; i < 4; ++i)
+			{
+				v.deseneaza(p2, lungime );
+				p2 = v.getDest(p2, lungime);
+				v.rotatie(-90);
+			}
+		}
+	}
+
+	void afisare(double lungime, int nivel) {
+		CVector v(0.5, 0.0);
+		CPunct p(0.0, 0.0);
+
+		sirpienskiCarpet(lungime, nivel, p, v);
+	}
+};
 
 
 
@@ -498,6 +543,25 @@ void Display4() {
 	nivel++;
 }
 
+void Display5() {
+	CSirpienskiCarpet csc;
+	csc.afisare(0.6, nivel);
+
+	char c[3];
+	sprintf(c, "%2d", nivel);
+	glRasterPos2d(-0.98, -0.98);
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'N');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'i');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'v');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'e');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'l');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, '=');
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[0]);
+	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[1]);
+
+	nivel++;
+}
+
 void Init(void) {
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -533,6 +597,10 @@ void Display(void)
 	case '4':
 		glClear(GL_COLOR_BUFFER_BIT);
 		Display4();
+		break;
+	case '5':
+		glClear(GL_COLOR_BUFFER_BIT);
+		Display5();
 		break;
 	default:
 		break;
@@ -584,5 +652,4 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-
 
