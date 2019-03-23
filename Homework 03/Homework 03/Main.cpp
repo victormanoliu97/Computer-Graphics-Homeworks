@@ -356,15 +356,8 @@ class CSirpienskiCarpet {
 public:
 	void sirpienskiCarpet(double lungime, int nivel, CPunct &p, CVector v) {
 		if (nivel >= 0) {
-			//deseneaza
-			//CPunct p1(p);
 			double x, y;
 			p.getxy(x, y);
-			//v.deseneaza(CPunct(x - lungime / 2, y + lungime / 2), lungime);
-			//v.rotatie(90);
-			//p1 = v.getDest(p1, lungime);
-
-			CPunct p1(x - lungime, y);
 
 			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x - lungime, y), v);
 			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x - lungime, y - lungime), v);
@@ -375,7 +368,6 @@ public:
 			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x + lungime, y - lungime), v);
 			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x + lungime, y + lungime), v);
 			sirpienskiCarpet(lungime / 3, nivel - 1, *new CPunct(x, y + lungime), v);
-
 
 			CPunct p2(x - lungime / 2.0, y + lungime / 2.0);
 
@@ -393,6 +385,16 @@ public:
 		CPunct p(0.0, 0.0);
 
 		sirpienskiCarpet(lungime, nivel, p, v);
+
+		CPunct p2(0.0 - lungime *1.5, 0.0 + lungime*1.5);
+		CVector v2(0.5, 0.0);
+
+		for (int i = 0; i < 4; ++i)
+		{
+			v2.deseneaza(p2, lungime*3);
+			p2 = v2.getDest(p2, lungime*3);
+			v2.rotatie(-90);
+		}
 	}
 };
 
@@ -603,7 +605,7 @@ void Display4() {
 
 void Display5() {
 	CSirpienskiCarpet csc;
-	csc.afisare(0.6, nivel);
+	csc.afisare(0.3, nivel);
 
 	char c[3];
 	sprintf(c, "%2d", nivel);
