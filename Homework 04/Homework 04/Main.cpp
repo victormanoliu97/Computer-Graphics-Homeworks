@@ -13,10 +13,10 @@ class GrilaCarteziana {
 public:
 	int numarLinii;
 	int numarColoane;
-	double cx;
-	double cy;
+	double startx;
+	double starty;
 	double dc;
-	double de;
+	double dl;
 	double epsilon;
 	double radius;
 
@@ -25,36 +25,37 @@ public:
 		this->numarLinii = numarLinii;
 		this->numarColoane = numarColoane;
 		this->epsilon = 0.1;
-		this->cx = -1 + this->epsilon;
-		this->cy = -1 + this->epsilon;
+		this->startx = -1 + this->epsilon;
+		this->starty = -1 + this->epsilon;
 		this->dc = (2 - 2 * this->epsilon) / (numarColoane - 1);
-		this->de = (2 - 2 * this->epsilon) / (numarLinii - 1);
+		this->dl = (2 - 2 * this->epsilon) / (numarLinii - 1);
 
 		this->radius = this->dc / 3;
-		printf("%d %d", xs, ys);
 		this->deseneazaColoane();
 		this->deseneazaLinii();
 	}
 
 	void deseneazaLinii() {
+		glLineWidth(1);
 		glColor3f(0.0, 0.0, 0.0);
 		glBegin(GL_LINES);
-		double p1_x = this->cx;
-		double p_y = this->cy;
-		double p2_x = -this->cx;
+		double p1_x = this->startx;
+		double p_y = this->starty;
+		double p2_x = -this->startx;
 		for (int i = 1; i <= this->numarLinii; i++) {
 			glVertex2f(p1_x / xs, p_y / ys);
 			glVertex2f(p2_x / xs, p_y / ys);
-			p_y += this->de;
+			p_y += this->dl;
 		}
 		glEnd();
 	}
 
 	void deseneazaColoane() {
+		glLineWidth(1);
 		glColor3f(0.0, 0.0, 0.0);
 		glBegin(GL_LINES);
-		double p_x = this->cx;
-		double p1_y = this->cy;
+		double p_x = this->startx;
+		double p1_y = this->starty;
 		double p2_y = 1 - this->epsilon;
 		for (int i = 1; i <= this->numarColoane; i++) {
 			glVertex2f(p_x / xs, p1_y / ys);
@@ -65,9 +66,9 @@ public:
 	}
 
 	void writePixel(int i, int j) {
-		double x = this->cx + i * this->dc;
-		double y = this->cy + j * this->de;
-		deseneaaCerc(x, y, radius, 10000);	
+		double x = this->startx + i * this->dc;
+		double y = this->starty + j * this->dl;
+		deseneazaCerc(x, y, radius, 10000);	
 	}
 
 	void afisareSegmentDreapta3(int x0, int y0, int xn, int yn, int grosime) {
@@ -80,9 +81,7 @@ public:
 		int dE = 2 * dy;
 		int dNE = 2 * (dy - dx);
 		int x = x0, y = y0;
-		map<int, int> m;
-		m[x] = y;
-		//printf("X:%d Y:%d\n", x, y);
+		
 		for (int i = 0; i <= (int)grosime / 2; i++) {
 			if (y + i < this->numarLinii)
 				this->writePixel(x, y + i);
@@ -90,7 +89,6 @@ public:
 				this->writePixel(x, y - i);
 		}
 		while (x < xn) {
-			//printf("d:%d\n", d);
 			if (d <= 0) {
 				d += dE;
 				x++;
@@ -105,29 +103,27 @@ public:
 					y--;
 				}
 			}
-			//printf("X:%d Y:%d\n", x, y);
 			for (int i = 0; i <= (int)grosime / 2; i++) {
 				if (y + i < this->numarLinii)
 					this->writePixel(x, y + i);
 				if (y - i > 0)
 					this->writePixel(x, y - i);
 			}
-			m[x] = y;
 		}
 	}
 
 
-	void deseneaaCerc(double x, double y, double r, int numberOfSegments) {
+	void deseneazaCerc(double x, double y, double r, int numarSegmente) {
 
 		double pi = 4 * atan(1.0);
-
+		glLineWidth(1);
 		glColor3ub(71, 71, 71);
 		glBegin(GL_TRIANGLE_FAN);
 		glVertex2f(x / xs, y / ys);
 
-		for (int i = 0; i < numberOfSegments; i++) {
-			float x_aux = x + (this->radius*cos(i * 2 * pi / numberOfSegments));
-			float y_aux = y + (this->radius*sin(i * 2 * pi / numberOfSegments));
+		for (int i = 0; i < numarSegmente; i++) {
+			float x_aux = x + (this->radius*cos(i * 2 * pi / numarSegmente));
+			float y_aux = y + (this->radius*sin(i * 2 * pi / numarSegmente));
 			glVertex2f(x_aux / xs, y_aux / ys);
 		}
 
@@ -135,15 +131,16 @@ public:
 	}
 
 
-	void deseneazaSegmentMartor(int x0, int y0, int xn, int yn) {
+	void deseneazaSegment(int x0, int y0, int xn, int yn) {
+		glLineWidth(3);
 		glColor3f(1.0, 0.1, 0.1);
 		glBegin(GL_LINES);
 		double x1, y1;
-		x1 = this->cx + x0 * this->dc;
-		y1 = this->cy + y0 * this->de;
+		x1 = this->startx + x0 * this->dc;
+		y1 = this->starty + y0 * this->dl;
 		glVertex2f(x1 / xs, y1 / ys);
-		x1 = this->cx + xn * this->dc;
-		y1 = this->cy + yn * this->de;
+		x1 = this->startx + xn * this->dc;
+		y1 = this->starty + yn * this->dl;
 		glVertex2f(x1 / xs, y1 / ys);
 		glEnd();
 	}
@@ -165,16 +162,15 @@ void display1() {
 	int numarColoane = 16;
 	GrilaCarteziana* grilaCarteziana = new GrilaCarteziana(numarLinii, numarColoane);
 	
-	grilaCarteziana->afisareSegmentDreapta3(0, 15, 15, 10,3);
-	grilaCarteziana->deseneazaSegmentMartor(0, 15, 15, 10);
+	grilaCarteziana->afisareSegmentDreapta3(0, 15, 15, 10, 3);
+	grilaCarteziana->deseneazaSegment(0, 15, 15, 10);
 	grilaCarteziana->afisareSegmentDreapta3(0, 0, 15, 7, 1);
-	grilaCarteziana->deseneazaSegmentMartor(0, 0, 15, 7);
+	grilaCarteziana->deseneazaSegment(0, 0, 15, 7);
 }
 
 void Display(void) {
 	printf("Call Display\n");
 
-	// sterge buffer-ul indicat
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	switch (prevKey) {
@@ -191,24 +187,19 @@ void Display(void) {
 
 void Reshape(int w, int h) {
 	printf("Call Reshape : latime = %d, inaltime = %d\n", w, h);
-
-	// functia void glViewport (GLint x, GLint y,
-	//                          GLsizei width, GLsizei height)
-	// defineste poarta de afisare : acea suprafata dreptunghiulara
-	// din fereastra de afisare folosita pentru vizualizare.
-	// x, y sunt coordonatele pct. din stg. jos iar 
-	// width si height sunt latimea si inaltimea in pixeli.
-	// In cazul de mai jos poarta de afisare si fereastra coincid
 	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 
 	double ratio = (double)w / (double)h;
 	if (ratio != 1.0) {
-		if (w > h)
+		if (w > h) {
 			xs = (double)w / (double)h;
-		else
+			ys = 1.0;
+		}
+		else {
 			ys = (double)h / (double)w;
+			xs = 1.0;
+		}
 	}
-	//printf("Modificate %f %f - ratia %f\n", xs, ys, ratio);
 
 }
 
@@ -223,12 +214,12 @@ void KeyboardFunc(unsigned char key, int x, int y) {
 }
 
 void MouseFunc(int button, int state, int x, int y) {
-	printf("Call MouseFunc : ati %s butonul %s in pozitia %d %d\n",
+	/*printf("Call MouseFunc : ati %s butonul %s in pozitia %d %d\n",
 		(state == GLUT_DOWN) ? "apasat" : "eliberat",
 		(button == GLUT_LEFT_BUTTON) ?
 		"stang" :
 		((button == GLUT_RIGHT_BUTTON) ? "drept" : "mijlociu"),
-		x, y);
+		x, y);*/
 }
 
 int main(int argc, char** argv) {
